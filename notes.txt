@@ -1,0 +1,11 @@
+**** BUILDING A PHASER GAME WITH PHYSICS *******
+
+Figuring out the rules of a video game is a one of the joys of starting a new game. 
+- we wonder how fast our character can go, or how high it jumps , or what happens when it touches an enemy sprite.
+- as a game developer, implementing these rules is about deciding the physics of our game.
+
+- the physics of a game determines how GameObjects interact with the game world. 
+
+((( Phaser provides built-in physics plugins to create a game with set rules & interactions )));
+
+
