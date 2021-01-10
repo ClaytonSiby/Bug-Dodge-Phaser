@@ -1,3 +1,3 @@
-import GameLogic from "./modules/GameLogic";
+import GameLogic from './modules/GameLogic';
 
 GameLogic.game;

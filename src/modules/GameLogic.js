@@ -2,34 +2,34 @@ const GameLogic = (() => {
   function preload() {
     this.load.image(
       'bug1',
-      'https://content.codecademy.com/courses/learn-phaser/physics/bug_1.png'
-    )
+      'https://content.codecademy.com/courses/learn-phaser/physics/bug_1.png',
+    );
     this.load.image(
       'bug2',
-      'https://content.codecademy.com/courses/learn-phaser/physics/bug_2.png'
-    )
+      'https://content.codecademy.com/courses/learn-phaser/physics/bug_2.png',
+    );
     this.load.image(
       'bug3',
-      'https://content.codecademy.com/courses/learn-phaser/physics/bug_3.png'
-    )
+      'https://content.codecademy.com/courses/learn-phaser/physics/bug_3.png',
+    );
     this.load.image(
       'platform',
-      'https://content.codecademy.com/courses/learn-phaser/physics/platform.png'
-    )
+      'https://content.codecademy.com/courses/learn-phaser/physics/platform.png',
+    );
     this.load.image(
       'codey',
-      'https://content.codecademy.com/courses/learn-phaser/physics/codey.png'
-    )
+      'https://content.codecademy.com/courses/learn-phaser/physics/codey.png',
+    );
   }
 
-  const gameState = {}
+  const gameState = {};
 
   function create() {
     // Add your code below:
-    this.physics.add.sprite(150, 70, 'codey')
+    this.physics.add.sprite(150, 70, 'codey');
   }
 
-  function update () {}
+  function update() {}
 
   const config = {
     type: Phaser.AUTO,
@@ -41,19 +41,19 @@ const GameLogic = (() => {
       arcade: {
         gravity: { y: 200 },
         enableBody: true,
-        debug: true
-      }
+        debug: true,
+      },
     },
     scene: {
       preload,
       create,
-      update
-    }
-  }
+      update,
+    },
+  };
 
-  const game = new Phaser.Game(config)
+  const game = new Phaser.Game(config);
 
-  return { game }
-})()
+  return { game };
+})();
 
-export default GameLogic
+export default GameLogic;
