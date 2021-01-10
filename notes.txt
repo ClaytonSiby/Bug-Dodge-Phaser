@@ -53,3 +53,41 @@ NB * -> when we call this.physics.add.sprite(), we're telling Phaser's physics p
 => Group objects are used to create and maintain sprites in a group.
 -> in this case we can use this Group object to create additional platforms.
 
+e.g function create() {
+    const platforms = this.physics.add.staticGroup();
+    platforms.create(320, 350, 'platform');
+}
+
+** explanation *** => we've created a static group Object & saved it to the platforms variable.
+                   => Our platforms won't be affected by the game's gravity.
+                   -> then we call platforms.create() with 3 arguments:
+                     a) - the first argument is the x-coordinate of the sprite's center
+                     b) - the second argument is the y-coordinate of the sprite's center.
+                     c) - the last argument is the ky of the sprite's image.
+
+
+***** DETECTING COLLISIONS *****
+
+- Remember our physics plugin determines how GameObjects interact.
+- The way to decide these interactions is to create a Collider object that checks if two GameObjects bump into each other.
+
+=> to set a collider object we need to call this.physics.add.collider().
+-> the .collider() method takes three arguments ( the last one argument is optional).
+-> the first two arguments are the GameObjects ( or Group objects ) that collide.
+
+e.g function create() {
+    const player = this.physics.add.sprite(100, 100, 'player');
+    const platform = this.physics.add.sprite(100, 500, 'platform');
+
+    this.physics.add.collider(player, platform);
+}
+
+
+NB** => now, the player & the platform objects don't overlap when they bump into each other.
+-> while we're on the topic of collisions, we can call the .setCollideWorldBounds(true) for GameObjects that we want to stay inside the screen of the game.
+
+e.g callign: player.setCollideWorldBounds(true) will make it so the player sprite can't fall off the screen;
+
+***** ADDING CONTROLS & VELOCITY *****
+
+

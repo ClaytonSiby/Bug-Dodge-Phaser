@@ -26,7 +26,13 @@ const GameLogic = (() => {
 
   function create() {
     // Add your code below:
-    this.physics.add.sprite(150, 70, 'codey');
+    gameState.player = this.physics.add.sprite(150, 70, 'codey');
+
+    const platforms = this.physics.add.staticGroup();
+    platforms.create(225, 510, 'platform');
+
+    gameState.player.setCollideWorldBounds(true);
+    this.physics.add.collider(gameState.player, platforms);
   }
 
   function update() {}
@@ -41,7 +47,7 @@ const GameLogic = (() => {
       arcade: {
         gravity: { y: 200 },
         enableBody: true,
-        debug: true,
+        // debug: true,
       },
     },
     scene: {
