@@ -18,10 +18,11 @@
   },
   "homepage": "https://github.com/ClaytonSiby/Bug-Dodge-Phaser#readme",
   "devDependencies": {
+    "babel-eslint": "10.1.x",
+    "eslint": "6.8.x",
+    "eslint-config-airbnb-base": "14.1.x",
+    "eslint-plugin-import": "2.20.x",
     "webpack": "^5.12.2",
     "webpack-cli": "^4.3.1"
-  },
-  "dependencies": {
-    "lodash": "^4.17.20"
   }
 }
