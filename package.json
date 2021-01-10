@@ -1,0 +1,27 @@
+{
+  "name": "intermediate-phaser",
+  "version": "1.0.0",
+  "description": "Simple bug-dodging game",
+  "private": "true",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ClaytonSiby/Bug-Dodge-Phaser.git"
+  },
+  "author": "ClaytonSiby",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ClaytonSiby/Bug-Dodge-Phaser/issues"
+  },
+  "homepage": "https://github.com/ClaytonSiby/Bug-Dodge-Phaser#readme",
+  "devDependencies": {
+    "webpack": "^5.12.2",
+    "webpack-cli": "^4.3.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.20"
+  }
+}
