@@ -8,4 +8,36 @@ Figuring out the rules of a video game is a one of the joys of starting a new ga
 
 ((( Phaser provides built-in physics plugins to create a game with set rules & interactions )));
 
+we make use of:
+this.physics.add.sprite() and have our sprite affected by physics!
+=> in this case the sprite will feel the effects of gravity.
+- the method  `this.physics.add.sprite()` takes 3 arguments:
+  a) -> the first argument sets the x-coordinate of the sprite's center.
+  b) -> second argument sets the y-coordinate of the sprite's center.
+  c) -> third argument is the key of the image loaded in the preload() function.
 
+  ********** IMPLEMENTING PHYSICS ***********
+
+- To implement gravity we make use of a `physics plugin` which decides how GameObjects interact with each other.
+- the plugin we're going to use is Phaser's Arcade physics plugin - this plugin is great for adding gravity to the game & detecting collisions.
+=> to add the Arcade physics plugin to our config object, we need to add a physics property & provide additional specifications in its value: 
+
+   e.g const config = {
+       // ......
+       physics: {
+           default: 'arcade',
+           arcade: {
+               gravity: { y: 300 },
+               debug: true
+           }
+       }
+   }
+
+   *explanation* => the physics property, the object has two keys, `default` & `arcade`:
+                 a) `default` has a value of 'arcade' which tells Phaser to use the Arcade physics plugin.
+                 b) `arcade` is another object that contains details about how we want the Arcad physics to work. The object has two keys:
+                    -> gravity ~ which is set to { y: 300 } to assign a downward gravity.
+                      - the value 300 is based on personal preference, the higher the number, the stronger the effect of gravity is.
+                    -> debug ~ with a value of true to see the outline of objects in our game & the velocity.
+
+NB * -> when we call this.physics.add.sprite(), we're telling Phaser's physics plugin to create our sprite for us & have this sprite follow the physics the game.
