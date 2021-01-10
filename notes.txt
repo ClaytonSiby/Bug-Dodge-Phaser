@@ -41,3 +41,15 @@ this.physics.add.sprite() and have our sprite affected by physics!
                     -> debug ~ with a value of true to see the outline of objects in our game & the velocity.
 
 NB * -> when we call this.physics.add.sprite(), we're telling Phaser's physics plugin to create our sprite for us & have this sprite follow the physics the game.
+
+************* adding static groups ***********
+
+- we need to get the player sprite to land on some steady ground.
+- we first need to create a ground platform!
+- this gorund platform will not be affected by gravity but we want it to interact with the player sprite.
+- we can't use this.add.image() like we do for our background image since images aren't affected by physics and don't interact with GameObjects.
+
+=> what we need is this.physics.add.staticGroup() to create a Group object which keeps track of our platforms.
+=> Group objects are used to create and maintain sprites in a group.
+-> in this case we can use this Group object to create additional platforms.
+
