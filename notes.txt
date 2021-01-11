@@ -35,7 +35,7 @@ this.physics.add.sprite() and have our sprite affected by physics!
 
    *explanation* => the physics property, the object has two keys, `default` & `arcade`:
                  a) `default` has a value of 'arcade' which tells Phaser to use the Arcade physics plugin.
-                 b) `arcade` is another object that contains details about how we want the Arcad physics to work. The object has two keys:
+                 b) `arcade` is another object that contains details about how we want the Arcade physics to work. The object has two keys:
                     -> gravity ~ which is set to { y: 300 } to assign a downward gravity.
                       - the value 300 is based on personal preference, the higher the number, the stronger the effect of gravity is.
                     -> debug ~ with a value of true to see the outline of objects in our game & the velocity.
@@ -46,7 +46,7 @@ NB * -> when we call this.physics.add.sprite(), we're telling Phaser's physics p
 
 - we need to get the player sprite to land on some steady ground.
 - we first need to create a ground platform!
-- this gorund platform will not be affected by gravity but we want it to interact with the player sprite.
+- this ground platform will not be affected by gravity but we want it to interact with the player sprite.
 - we can't use this.add.image() like we do for our background image since images aren't affected by physics and don't interact with GameObjects.
 
 => what we need is this.physics.add.staticGroup() to create a Group object which keeps track of our platforms.
@@ -90,4 +90,63 @@ e.g callign: player.setCollideWorldBounds(true) will make it so the player sprit
 
 ***** ADDING CONTROLS & VELOCITY *****
 
+- One way we can implement controls is by using Phaser's `this.input.keyboard.createCursorKeys()` method to create a useful object for keyboard inputs.
+- the created object has properties:
+  ( up, down, left, right, space, and shift ). -> these are directly related to the keyboard keys.
+  -> we can also acces the .isDown property to the key to see if it is pressed.
+- If the key is pressed, we can change the horizontal velocity of the GameObject by using the .setVelocityX() method.
+
+e.g function create() {
+    gameState.cursors = this.input.keyboard.createCursorKeys();
+  }
+    
+  function update() {
+    if(gameState.cursors.left.isDown) {
+      heroSprite.setVelocityX(-160);
+    } else if(gameState.cursors.right.isDown) {
+      heroSprite.setVelocityX(160);
+    } else {
+      heroSprite.setVelocityX(0);
+    }
+  }
+
+************ ADDING ENEMIES ********** 
+
+- Unlike the player sprite, we probably want multiple enemies to triumph over.
+- & unlike the platform, we should have physics affect them.
+- Phaser has a handy method for us, this.physics.add.group() which returns a Group object that we can use to organize multiple enemy sprites. e.g:
+
+  function create() {
+    const enemies = this.physics.add.group();
+    enemies.create(320, 10, 'enemy');
+  }
+
+
+-> from the example we called `this.physics.add.group() and assigned it to a variable, `enemies`.
+-> then we call enemies.create(320, 10, 'enemy') t0 create one sprite centered at the coordinates ( 320, 10) using the `enemy` key.
+
+NB -. with our current code, we know that our enemy will always appear at the coordinate ( 320, 10).
+-> we can randomize where this enemy's x-coordinate using Math.random() & multiply that value by the width of the screen.
+
+=> when we multiply the value from Math.random() with width of the screen ( in pixels), we get a value that is between from 0 ( left-hand side) to the width of the game ( right-hand side).
+=> the product is a random x-coordinate that is always on the screen.
+
+e.g function create() {
+   const enemies = this.physics.add.group();
+   const xCoordinate = Math.random() * 450;
+
+   enemies.create(xCoordinate, 10, 'enemy' );
+}
+
+*=> since we want to create multiple enemy sprites, we can use a function to house the logic for enemy creation:
+
+e.g function create() {
+   const enemies = this.physics.add.group();
+   function generateEnemy () {
+     const xCoordinate = Math.random() * 450;
+     enemies.create(xCoordinate, 10, 'enemy' );
+   }
+}
+
+-> with the example above, we can create an enemy sprite everytime we call generateEnemy();
 
