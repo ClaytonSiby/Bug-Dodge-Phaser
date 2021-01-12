@@ -4,7 +4,7 @@ The game is developed as introductory project to game development with phaser3. 
 
 ## Landing page:
 
-![screenshot](dist\images\phase-screenshot.png)
+![screenshot](images\phase-screenshot.png)
 
 ## Live Link
 
