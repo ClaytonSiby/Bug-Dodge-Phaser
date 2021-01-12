@@ -57,6 +57,9 @@ const GameLogic = (() => {
 
     // call the .addEvent() & pass in the bugObject timely calling the bugs.
     const bugGenLoop = this.time.addEvent(bugObject);
+
+    // add a collider object between bugs & platforms. Destroy the bug as it hits the platform.
+    this.physics.add.collider(bugs, platforms, (bug) => bug.destroy());
   }
 
   function update() {

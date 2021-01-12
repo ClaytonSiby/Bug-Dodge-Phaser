@@ -174,3 +174,26 @@ ABOVE EXPLANATION: => we accessed the Scene's `time` property & called .addEvent
   b) -> delay: ~ has a value of 100, which determines, in milliseconds, how long the delay before executing the callback again.
   c) -> callbackScope: ~ has a value of `this`, which selects the Scene this event is used in.
   d) -> loop: ~ has a value of `true`, which means that this event will continue to execute until we remove it.
+
+
+***** REMOVING THE ENEMIES ******
+
+- The sprites threaten to take over the game if we don't remove them.
+- We're going to use Phaser's .destroy() method to cautiously remove enemy sprites from our game.
+- for our game, the bugs should disappear when they git the ground.
+- therefore, we need a collider for enemies & the platform.
+- the collider will take the third argument of a callback function:
+
+e.g function create() {
+  this.physics.add.collider(enemies, platform,
+  
+    function(singleEnemy) {
+      singleEnemy.destroy();
+    }
+  )
+}
+
+**** EXPLANATION => 1) the first two arguments are Group objects, `enemies` & `platform`.
+                    2) the third argument is a callback function that has a parameter, `singleEnemy`:
+                       -> the ordering of the callback function's parameter corresponds to the ordering of .collider()'s first two arguments.
+                       -> we call singleEnemy.destroy() which will remove the enemy's sprite when it collides with a platform.
