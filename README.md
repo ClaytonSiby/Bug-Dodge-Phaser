@@ -8,7 +8,7 @@ The game is developed as introductory project to game development with phaser3. 
 
 ## Live Link
 
-[Live demo](https://todo-list-todos.netlify.app/)
+[Live demo](https://bug-dodge.netlify.app/)
 
 
 ## Technologies used:
