@@ -8,4 +8,219 @@ Figuring out the rules of a video game is a one of the joys of starting a new ga
 
 ((( Phaser provides built-in physics plugins to create a game with set rules & interactions )));
 
+we make use of:
+this.physics.add.sprite() and have our sprite affected by physics!
+=> in this case the sprite will feel the effects of gravity.
+- the method  `this.physics.add.sprite()` takes 3 arguments:
+  a) -> the first argument sets the x-coordinate of the sprite's center.
+  b) -> second argument sets the y-coordinate of the sprite's center.
+  c) -> third argument is the key of the image loaded in the preload() function.
 
+  ********** IMPLEMENTING PHYSICS ***********
+
+- To implement gravity we make use of a `physics plugin` which decides how GameObjects interact with each other.
+- the plugin we're going to use is Phaser's Arcade physics plugin - this plugin is great for adding gravity to the game & detecting collisions.
+=> to add the Arcade physics plugin to our config object, we need to add a physics property & provide additional specifications in its value: 
+
+   e.g const config = {
+       // ......
+       physics: {
+           default: 'arcade',
+           arcade: {
+               gravity: { y: 300 },
+               debug: true
+           }
+       }
+   }
+
+   *explanation* => the physics property, the object has two keys, `default` & `arcade`:
+                 a) `default` has a value of 'arcade' which tells Phaser to use the Arcade physics plugin.
+                 b) `arcade` is another object that contains details about how we want the Arcade physics to work. The object has two keys:
+                    -> gravity ~ which is set to { y: 300 } to assign a downward gravity.
+                      - the value 300 is based on personal preference, the higher the number, the stronger the effect of gravity is.
+                    -> debug ~ with a value of true to see the outline of objects in our game & the velocity.
+
+NB * -> when we call this.physics.add.sprite(), we're telling Phaser's physics plugin to create our sprite for us & have this sprite follow the physics the game.
+
+************* adding static groups ***********
+
+- we need to get the player sprite to land on some steady ground.
+- we first need to create a ground platform!
+- this ground platform will not be affected by gravity but we want it to interact with the player sprite.
+- we can't use this.add.image() like we do for our background image since images aren't affected by physics and don't interact with GameObjects.
+
+=> what we need is this.physics.add.staticGroup() to create a Group object which keeps track of our platforms.
+=> Group objects are used to create and maintain sprites in a group.
+-> in this case we can use this Group object to create additional platforms.
+
+e.g function create() {
+    const platforms = this.physics.add.staticGroup();
+    platforms.create(320, 350, 'platform');
+}
+
+** explanation *** => we've created a static group Object & saved it to the platforms variable.
+                   => Our platforms won't be affected by the game's gravity.
+                   -> then we call platforms.create() with 3 arguments:
+                     a) - the first argument is the x-coordinate of the sprite's center
+                     b) - the second argument is the y-coordinate of the sprite's center.
+                     c) - the last argument is the ky of the sprite's image.
+
+
+***** DETECTING COLLISIONS *****
+
+- Remember our physics plugin determines how GameObjects interact.
+- The way to decide these interactions is to create a Collider object that checks if two GameObjects bump into each other.
+
+=> to set a collider object we need to call this.physics.add.collider().
+-> the .collider() method takes three arguments ( the last one argument is optional).
+-> the first two arguments are the GameObjects ( or Group objects ) that collide.
+
+e.g function create() {
+    const player = this.physics.add.sprite(100, 100, 'player');
+    const platform = this.physics.add.sprite(100, 500, 'platform');
+
+    this.physics.add.collider(player, platform);
+}
+
+
+NB** => now, the player & the platform objects don't overlap when they bump into each other.
+-> while we're on the topic of collisions, we can call the .setCollideWorldBounds(true) for GameObjects that we want to stay inside the screen of the game.
+
+e.g callign: player.setCollideWorldBounds(true) will make it so the player sprite can't fall off the screen;
+
+***** ADDING CONTROLS & VELOCITY *****
+
+- One way we can implement controls is by using Phaser's `this.input.keyboard.createCursorKeys()` method to create a useful object for keyboard inputs.
+- the created object has properties:
+  ( up, down, left, right, space, and shift ). -> these are directly related to the keyboard keys.
+  -> we can also acces the .isDown property to the key to see if it is pressed.
+- If the key is pressed, we can change the horizontal velocity of the GameObject by using the .setVelocityX() method.
+
+e.g function create() {
+    gameState.cursors = this.input.keyboard.createCursorKeys();
+  }
+    
+  function update() {
+    if(gameState.cursors.left.isDown) {
+      heroSprite.setVelocityX(-160);
+    } else if(gameState.cursors.right.isDown) {
+      heroSprite.setVelocityX(160);
+    } else {
+      heroSprite.setVelocityX(0);
+    }
+  }
+
+************ ADDING ENEMIES ********** 
+
+- Unlike the player sprite, we probably want multiple enemies to triumph over.
+- & unlike the platform, we should have physics affect them.
+- Phaser has a handy method for us, this.physics.add.group() which returns a Group object that we can use to organize multiple enemy sprites. e.g:
+
+  function create() {
+    const enemies = this.physics.add.group();
+    enemies.create(320, 10, 'enemy');
+  }
+
+
+-> from the example we called `this.physics.add.group() and assigned it to a variable, `enemies`.
+-> then we call enemies.create(320, 10, 'enemy') t0 create one sprite centered at the coordinates ( 320, 10) using the `enemy` key.
+
+NB -. with our current code, we know that our enemy will always appear at the coordinate ( 320, 10).
+-> we can randomize where this enemy's x-coordinate using Math.random() & multiply that value by the width of the screen.
+
+=> when we multiply the value from Math.random() with width of the screen ( in pixels), we get a value that is between from 0 ( left-hand side) to the width of the game ( right-hand side).
+=> the product is a random x-coordinate that is always on the screen.
+
+e.g function create() {
+   const enemies = this.physics.add.group();
+   const xCoordinate = Math.random() * 450;
+
+   enemies.create(xCoordinate, 10, 'enemy' );
+}
+
+*=> since we want to create multiple enemy sprites, we can use a function to house the logic for enemy creation:
+
+e.g function create() {
+   const enemies = this.physics.add.group();
+   function generateEnemy () {
+     const xCoordinate = Math.random() * 450;
+     enemies.create(xCoordinate, 10, 'enemy' );
+   }
+}
+
+-> with the example above, we can create an enemy sprite everytime we call generateEnemy();
+
+****** Creating timed events *****
+
+- we can create a loop to consistently create more enemies to make the game more challenging.
+- to implement this loop we can call this.time.addEvent() & pass in an object with specifications for how we want this loop to run.
+
+e.g function create() {
+  function generateEnemy() {
+    // code to create an enemy sprite.
+  }
+
+  const enemyGenLoop = this.time.addEvent({
+    callback: generateEnemy,
+    delay: 100,
+    callbackScope: this,
+    loop: true
+  })
+}
+
+ABOVE EXPLANATION: => we accessed the Scene's `time` property & called .addEvent() with an object representing the event we want called.
+-> the object has 4 keys that each provide different specifications:
+  a) -> callback: ~ has a value of generateEnemy which means this event will call generateEnemy() function.
+  b) -> delay: ~ has a value of 100, which determines, in milliseconds, how long the delay before executing the callback again.
+  c) -> callbackScope: ~ has a value of `this`, which selects the Scene this event is used in.
+  d) -> loop: ~ has a value of `true`, which means that this event will continue to execute until we remove it.
+
+
+***** REMOVING THE ENEMIES ******
+
+- The sprites threaten to take over the game if we don't remove them.
+- We're going to use Phaser's .destroy() method to cautiously remove enemy sprites from our game.
+- for our game, the bugs should disappear when they git the ground.
+- therefore, we need a collider for enemies & the platform.
+- the collider will take the third argument of a callback function:
+
+e.g function create() {
+  this.physics.add.collider(enemies, platform,
+  
+    function(singleEnemy) {
+      singleEnemy.destroy();
+    }
+  )
+}
+
+**** EXPLANATION => 1) the first two arguments are Group objects, `enemies` & `platform`.
+                    2) the third argument is a callback function that has a parameter, `singleEnemy`:
+                       -> the ordering of the callback function's parameter corresponds to the ordering of .collider()'s first two arguments.
+                       -> we call singleEnemy.destroy() which will remove the enemy's sprite when it collides with a platform.
+
+
+ ***** ADDING LOSING CONDITION *******
+
+- One common losing condition is when a player sprite collides with an enemy sprite.
+- this means we need to add another collider object with a callback in create();
+
+e.g this.physics.add.collider(player, enemies, () => {
+  // logic to end the game.
+})
+
+- for this game, it ends when the player sprite & a bug collide.
+* => When this event happens we also want certain things to stop:
+  1) -> stop creating bugs, call .destroy() on the loop tha creates our bugs.
+  2) -> stop the physics of our game.
+    *NB* -> to put a pause on physics, we can call this.physics.pause();
+
+  ***** RESETING A SCENE *******
+
+- Once the game is over, we should allow playerss to restart & try again.
+- Phaser has a convinient method to solve this issue: `this.scene.restart()`. It restarts the scene.
+- For our game, we want this option to be available after the player sprite has collided with a bug.
+- we'll give our player an option to restart when they choose to.
+
+*=> one way to implement this logic is to add on to the callback function of the player & bugs collider object.
+ => we'll add an event listener for a mouse click, or 'pointerup' event.
+ => when this event occurs, then we'll restart the scene.
