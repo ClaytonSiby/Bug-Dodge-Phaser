@@ -2,7 +2,7 @@
 
 The game is developed as introductory project to game development with phaser3. The player has to avoid collision with the bugs to earn more points. Careful, might get addicted! :)
 
-## Landing page
+## Landing page:
 
 ![screenshot](dist\images\phase-screenshot.png)
 
