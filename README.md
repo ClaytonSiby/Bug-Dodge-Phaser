@@ -1,4 +1,4 @@
-# Project: To Do List
+# Project: Bug-Dodge-Phaser
 
 The game is developed as introductory project to game development with phaser3. The player has to avoid collision with the bugs to earn more points. Careful, might get addicted! :)
 
