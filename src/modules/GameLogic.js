@@ -22,7 +22,7 @@ const GameLogic = (() => {
     );
   }
 
-  const gameState = {};
+  const gameState = { score: 0 };
 
   function create() {
     // Add your code below:
@@ -58,8 +58,18 @@ const GameLogic = (() => {
     // call the .addEvent() & pass in the bugObject timely calling the bugs.
     const bugGenLoop = this.time.addEvent(bugObject);
 
+    // display initial score: 0 text.
+    gameState.scoreText = this.add.text(195, 485, 'Score: 0', {
+      fontSize: '15px', fill: '#000000'
+    });
+
     // add a collider object between bugs & platforms. Destroy the bug as it hits the platform.
-    this.physics.add.collider(bugs, platforms, (bug) => bug.destroy());
+    this.physics.add.collider(bugs, platforms, (bug) => { 
+      bug.destroy();
+
+      gameState.score += 10
+      gameState.scoreText.setText(`Score: ${ gameState.score }`);
+    });
   }
 
   function update() {
