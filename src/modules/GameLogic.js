@@ -37,15 +37,26 @@ const GameLogic = (() => {
     gameState.player.setCollideWorldBounds(true);
     this.physics.add.collider(gameState.player, platforms);
 
+    // create a group for enemy objects.
     const bugs = this.physics.add.group();
 
+    // callback to randomly place enemy objects on the game platform
     function bugGen() {
       const xCoordinate = Math.random() * 450;
 
       bugs.create(xCoordinate, 10, 'bug2');
     }
 
-    setInterval(bugGen, 100);
+    // object for that timely calls the bugGen method.
+    const bugObject = {
+      callback: bugGen,
+      delay: 150,
+      callbackScope: this,
+      loop: true
+    }
+
+    // call the .addEvent() & pass in the bugObject timely calling the bugs.
+    const bugGenLoop = this.time.addEvent(bugObject);
   }
 
   function update() {

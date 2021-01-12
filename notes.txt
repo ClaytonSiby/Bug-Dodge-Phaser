@@ -150,3 +150,27 @@ e.g function create() {
 
 -> with the example above, we can create an enemy sprite everytime we call generateEnemy();
 
+****** Creating timed events *****
+
+- we can create a loop to consistently create more enemies to make the game more challenging.
+- to implement this loop we can call this.time.addEvent() & pass in an object with specifications for how we want this loop to run.
+
+e.g function create() {
+  function generateEnemy() {
+    // code to create an enemy sprite.
+  }
+
+  const enemyGenLoop = this.time.addEvent({
+    callback: generateEnemy,
+    delay: 100,
+    callbackScope: this,
+    loop: true
+  })
+}
+
+ABOVE EXPLANATION: => we accessed the Scene's `time` property & called .addEvent() with an object representing the event we want called.
+-> the object has 4 keys that each provide different specifications:
+  a) -> callback: ~ has a value of generateEnemy which means this event will call generateEnemy() function.
+  b) -> delay: ~ has a value of 100, which determines, in milliseconds, how long the delay before executing the callback again.
+  c) -> callbackScope: ~ has a value of `this`, which selects the Scene this event is used in.
+  d) -> loop: ~ has a value of `true`, which means that this event will continue to execute until we remove it.
