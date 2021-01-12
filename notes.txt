@@ -197,3 +197,30 @@ e.g function create() {
                     2) the third argument is a callback function that has a parameter, `singleEnemy`:
                        -> the ordering of the callback function's parameter corresponds to the ordering of .collider()'s first two arguments.
                        -> we call singleEnemy.destroy() which will remove the enemy's sprite when it collides with a platform.
+
+
+ ***** ADDING LOSING CONDITION *******
+
+- One common losing condition is when a player sprite collides with an enemy sprite.
+- this means we need to add another collider object with a callback in create();
+
+e.g this.physics.add.collider(player, enemies, () => {
+  // logic to end the game.
+})
+
+- for this game, it ends when the player sprite & a bug collide.
+* => When this event happens we also want certain things to stop:
+  1) -> stop creating bugs, call .destroy() on the loop tha creates our bugs.
+  2) -> stop the physics of our game.
+    *NB* -> to put a pause on physics, we can call this.physics.pause();
+
+  ***** RESETING A SCENE *******
+
+- Once the game is over, we should allow playerss to restart & try again.
+- Phaser has a convinient method to solve this issue: `this.scene.restart()`. It restarts the scene.
+- For our game, we want this option to be available after the player sprite has collided with a bug.
+- we'll give our player an option to restart when they choose to.
+
+*=> one way to implement this logic is to add on to the callback function of the player & bugs collider object.
+ => we'll add an event listener for a mouse click, or 'pointerup' event.
+ => when this event occurs, then we'll restart the scene.
