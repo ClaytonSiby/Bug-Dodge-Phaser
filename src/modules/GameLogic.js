@@ -26,7 +26,7 @@ const GameLogic = (() => {
 
   function create() {
     // Add your code below:
-    gameState.player = this.physics.add.sprite(225, 440, 'codey').setScale(.5);
+    gameState.player = this.physics.add.sprite(225, 440, 'codey').setScale(0.5);
 
     // set cursor object in the gameState object
     gameState.cursors = this.input.keyboard.createCursorKeys();
@@ -52,23 +52,23 @@ const GameLogic = (() => {
       callback: bugGen,
       delay: 150,
       callbackScope: this,
-      loop: true
-    }
+      loop: true,
+    };
 
     // call the .addEvent() & pass in the bugObject timely calling the bugs.
     const bugGenLoop = this.time.addEvent(bugObject);
 
     // display initial score: 0 text.
     gameState.scoreText = this.add.text(195, 485, 'Score: 0', {
-      fontSize: '15px', fill: '#000000'
+      fontSize: '15px', fill: '#000000',
     });
 
     // add a collider object between bugs & platforms. Destroy the bug as it hits the platform.
-    this.physics.add.collider(bugs, platforms, (bug) => { 
+    this.physics.add.collider(bugs, platforms, (bug) => {
       bug.destroy();
 
-      gameState.score += 10
-      gameState.scoreText.setText(`Score: ${ gameState.score }`);
+      gameState.score += 10;
+      gameState.scoreText.setText(`Score: ${gameState.score}`);
     });
 
     this.physics.add.collider(gameState.player, bugs, () => {
@@ -76,23 +76,21 @@ const GameLogic = (() => {
 
       this.physics.pause();
       this.add.text(180, 250, 'Game Over',
-        { fontSize: '15px', fill: 'red'
-      });
+        { fontSize: '15px', fill: 'red' });
       this.add.text(152, 270, 'Click to Restart',
-        { fontSize: '15px', fill: '#000000'
-      });
+        { fontSize: '15px', fill: '#000000' });
 
       this.input.on('pointerup', () => {
         gameState.score = 0;
         this.scene.restart();
-      })
-    })
+      });
+    });
   }
 
   function update() {
-    if(gameState.cursors.left.isDown) {
+    if (gameState.cursors.left.isDown) {
       gameState.player.setVelocityX(-160);
-    } else if(gameState.cursors.right.isDown) {
+    } else if (gameState.cursors.right.isDown) {
       gameState.player.setVelocityX(160);
     } else {
       gameState.player.setVelocityX(0);
