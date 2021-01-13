@@ -40,11 +40,15 @@ const GameLogic = (() => {
     // create a group for enemy objects.
     const bugs = this.physics.add.group();
 
+    // buglist
+    const bugList = [ 'bug1', 'bug2', 'bug3' ];
+
     // callback to randomly place enemy objects on the game platform
     function bugGen() {
       const xCoordinate = Math.random() * 450;
+      let randomBug = bugList[Math.floor(Math.random() * 3)];
 
-      bugs.create(xCoordinate, 10, 'bug2');
+      bugs.create(xCoordinate, 10, randomBug);
     }
 
     // object for that timely calls the bugGen method.
